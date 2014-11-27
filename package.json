@@ -1,0 +1,27 @@
+{
+  "name": "express-autoapi",
+  "version": "0.1.0",
+  "description": "Auto-generates api routes based on the filesystem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elkdanger/express-autoapi"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "api"
+  ],
+  "author": "Steve Hobbs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elkdanger/express-autoapi/issues"
+  },
+  "homepage": "https://github.com/elkdanger/express-autoapi",
+  "dependencies": {
+    "express": "^4.10.4"
+  }
+}
