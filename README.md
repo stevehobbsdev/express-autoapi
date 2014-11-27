@@ -1,4 +1,6 @@
 express-autoapi
 ===============
 
-A node module that automatically creates API routes based on files in a folder
+A node module that automatically creates API routes based on files in a folder.
+
+[work in progress]
