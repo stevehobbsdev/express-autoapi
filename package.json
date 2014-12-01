@@ -4,7 +4,7 @@
   "description": "Auto-generates api routes based on the filesystem",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node spec"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/elkdanger/express-autoapi",
   "dependencies": {
-    "express": "^4.10.4"
-  }
+    "express": "^4.10.4",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {}
 }
