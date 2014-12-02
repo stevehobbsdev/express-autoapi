@@ -1,7 +1,7 @@
 
 var utils = require('../util.js');
 
-describe('the utilities helpers', function() {
+describe('the combineApiPath method', function() {
 	
 	it('should strip the trailing slash when combining paths', function() {
 
@@ -36,7 +36,7 @@ describe('the utilities helpers', function() {
 	it('should accept null or empty for the second argument', function() {
 
 		var path1 = '/api';
-		var path2 = null;
+		var path2 = undefined;
 
 		var result = utils.combineApiPath(path1, path2);
 

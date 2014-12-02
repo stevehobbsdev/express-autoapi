@@ -5,13 +5,14 @@ var utils = require('./util.js');
 
 var defaults = {
     root: '/api',
-    debug: false
+    debug: false,
+    rootModule: 'index'
 };
 
-var currentsettings = null;
+var debugMode = false;
 
 function __log(args) {
-	if(currentsettings.debug) {
+	if(debugMode) {
 		console.log(arguments);
 	}
 }
@@ -20,7 +21,8 @@ module.exports = {
 
     setup: function(settings) {
 
-    	settings = currentsettings = _.extend({}, defaults, settings || {});
+    	settings = _.extend({}, defaults, settings || {});
+        debugMode = settings.debug;
 
     	if(!settings.app)
     		throw "Express app not specified";
@@ -47,6 +49,12 @@ module.exports = {
             // Try to load the module
             var module = require(modulePath);
             var name = path.basename(modulePath, ".js").replace(/\./g, '_');
+
+            // Special case for an index file - put these in the root of the api
+            if(name === settings.rootModule) {
+                name = undefined;
+            }
+
 			var apiPath = utils.combineApiPath(settings.root, name);
 
 			state.endpoints[name] = {
@@ -62,4 +70,4 @@ module.exports = {
 
         return state;
     }
-}
+};
