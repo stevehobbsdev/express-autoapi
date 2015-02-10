@@ -5,7 +5,7 @@ A node module for Express that automatically creates routes based on files in a 
 The initial use-case was for quickly building a Javascript API based simply on the files that exist in a folder, but they could be used to return any kind of result.
 
 ## Installation
-Install from Node Package Manager: `npm install express-autoapi`
+Install from Node Package Manager: `npm install express-autoapi --save`
 
 ## Quick start
 
