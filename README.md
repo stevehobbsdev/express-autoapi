@@ -1,4 +1,5 @@
 # express-autoapi
+[![Build Status](https://travis-ci.org/elkdanger/express-autoapi.svg?branch=master)](https://travis-ci.org/elkdanger/express-autoapi)
 
 A node module for Express that automatically creates routes based on files in a folder. Point the api at a folder containing JavaScript files that contain API routes, and the routes will be automatically loaded and included in the routing system.
 
