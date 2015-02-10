@@ -19,7 +19,7 @@ function __log(args) {
 
 module.exports = {
 
-    setup: function(settings) {
+     setup: function(settings) {
 
     	settings = _.extend({}, defaults, settings || {});
         debugMode = settings.debug;
