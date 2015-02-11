@@ -1,4 +1,5 @@
 var proxyquire = require('proxyquire');
+var path = require('path');
 
 describe('The index module', function() {
 
@@ -55,22 +56,18 @@ describe('The index module', function() {
         var module;
         var result;
         var testModuleStub;
+        var testFile = 'testModule.js';
 
         beforeEach(function() {
 
             fs = jasmine.createSpyObj('fs', ['existsSync', 'readdirSync']);
 
             fs.existsSync.andReturn(true);
-            fs.readdirSync.andReturn(['testModule.js']);
+            fs.readdirSync.andReturn([testFile]);
 
             testModuleStub = {
                 '@noCallThru': true // prevent this fictional module from being loaded
             };
-
-            module = proxyquire('../index', {
-                'fs': fs,
-                'api/testModule.js': testModuleStub
-            });
 
             app = jasmine.createSpyObj('app', ['use']);
 
@@ -79,6 +76,16 @@ describe('The index module', function() {
                 source: './api',
                 root: '/apiroot'
             };
+
+            var modulePath = path.join(settings.source, testFile);
+
+            var stubs = {
+            	'fs': fs
+            };
+
+            stubs[modulePath] = testModuleStub;
+
+            module = proxyquire('../index', stubs);
 
             result = module.setup(settings);
         });
@@ -115,7 +122,9 @@ describe('The index module', function() {
 
         it('should have the correct module path', function() {
 
-            expect(result.endpoints.testModule.filename).toBe('api/testModule.js');
+        	var expected = path.join(settings.source, testFile);
+
+            expect(result.endpoints.testModule.filename).toBe(expected);
 
         });
 
