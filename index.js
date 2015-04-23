@@ -12,22 +12,77 @@ var defaults = {
 var debugMode = false;
 
 function __log(args) {
-	if(debugMode) {
-		console.log(arguments);
-	}
+    if (debugMode) {
+        console.log.apply(null, arguments);
+    }
+}
+
+/**
+ * Processes a list of files and produces the api routing for them
+ * @param files The list of files to process
+ * @param settings express-autoapi settings
+ * @param state The process state
+ */
+function processFileList(files, base, settings, state) {
+
+    for (var i = 0; i < files.length; i++) {
+
+        var modulePath = path.join(base, files[i]);
+
+        var stats = fs.statSync(modulePath);
+
+        if (stats.isFile()) {
+
+            // Try to load the module
+            var module = require(modulePath);            
+            var relative = path.relative(settings.source, modulePath);
+
+            __log('Relative path: %s', relative);
+
+            var baseName = path.basename(relative, ".js");
+            var name = relative.substr(0, relative.lastIndexOf('.')).replace(/\./g, '_');
+
+            // Special case for an index file - put these in the root of the api
+            if (baseName === settings.rootModule) {
+
+                if(name.lastIndexOf('/') > -1)
+                    name = name.substr(0, name.lastIndexOf('/'));
+                else
+                    name = undefined;
+            }
+
+            __log('%s (%s)', baseName, name);
+
+            var apiPath = utils.combineApiPath(settings.root, name);
+
+            state.endpoints[name] = {
+                baseUrl: apiPath,
+                filename: modulePath,
+                baseName: name
+            };
+
+            __log(state.endpoints[name]);
+
+            settings.app.use(apiPath, module);
+        }
+        else if (stats.isDirectory()) {
+            var dirFiles = fs.readdirSync(modulePath);
+            processFileList(dirFiles, modulePath, settings, state);
+        }
+    }
 }
 
 module.exports = {
 
-     setup: function(settings) {
+    setup: function(settings) {
 
-    	settings = _.extend({}, defaults, settings || {});
+        settings = _.extend({}, defaults, settings || {});
         debugMode = settings.debug;
 
-    	if(!settings.app)
-    		throw "Express app not specified";
+        if (!settings.app)
+            throw "Express app not specified";
 
-    	__log("Settings: ", settings);
+        __log("Settings: ", settings);
 
         if (!settings.source || typeof settings.source != 'string')
             throw "No Api source directory found";
@@ -42,31 +97,7 @@ module.exports = {
 
         var files = fs.readdirSync(settings.source);
 
-        for (var i = 0; i < files.length; i++) {
-
-            var modulePath = path.join(settings.source, files[i]);
-
-            // Try to load the module
-            var module = require(modulePath);
-            var name = path.basename(modulePath, ".js").replace(/\./g, '_');
-
-            // Special case for an index file - put these in the root of the api
-            if(name === settings.rootModule) {
-                name = undefined;
-            }
-
-			var apiPath = utils.combineApiPath(settings.root, name);
-
-			state.endpoints[name] = {
-				baseUrl: apiPath,
-				filename: modulePath,
-				baseName: name
-			};
-
-			__log(state.endpoints[name]);
-
-            settings.app.use(apiPath, module);
-        }
+        processFileList(files, settings.source, settings, state);
 
         return state;
     }
