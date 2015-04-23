@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/elkdanger/express-autoapi",
   "dependencies": {
-    "express": "^4.10.4",
-    "underscore": "^1.7.0"
+    "express": "~4.12.3",
+    "underscore": "~1.8.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
