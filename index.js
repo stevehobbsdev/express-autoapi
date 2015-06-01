@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore')._;
 var utils = require('./util.js');
+var chalk = require('chalk');
 
 var defaults = {
     root: '/api',
@@ -27,7 +28,9 @@ module.exports = {
     	if(!settings.app)
     		throw "Express app not specified";
 
-    	__log("Settings: ", settings);
+        var loggedSettings = _.extend({}, settings);
+        delete loggedSettings.app;
+    	__log("Settings: ", loggedSettings);
 
         if (!settings.source || typeof settings.source != 'string')
             throw "No Api source directory found";
@@ -42,13 +45,22 @@ module.exports = {
 
         var files = fs.readdirSync(settings.source);
 
+        if(settings.debug) {
+            console.log(chalk.green('Files:'));
+            console.log(files);
+            console.log();
+        }
+
         for (var i = 0; i < files.length; i++) {
 
             var modulePath = path.join(settings.source, files[i]);
-
+            
             // Try to load the module
             var module = require(modulePath);
             var name = path.basename(modulePath, ".js").replace(/\./g, '_');
+
+            if(settings.debug)
+                console.log(chalk.green('Found module: ') + name);
 
             // Special case for an index file - put these in the root of the api
             if(name === settings.rootModule) {
