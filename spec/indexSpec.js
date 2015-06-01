@@ -1,5 +1,7 @@
 var proxyquire = require('proxyquire');
 var path = require('path');
+var expect = require('chai').expect;
+var sinon = require('sinon');
 
 describe('The index module', function() {
 
@@ -10,7 +12,9 @@ describe('The index module', function() {
     beforeEach(function() {
 
         app = {};
-        fs = jasmine.createSpyObj('fs', ['existsSync']);
+        fs = {
+            existsSync: sinon.stub()
+        };
 
         module = proxyquire('../index', {
             'fs': fs
@@ -20,7 +24,7 @@ describe('The index module', function() {
 
     it('fails when no express app is set', function() {
 
-        expect(module.setup).toThrow(new Error('Express app not specified'));
+        expect(module.setup).to.throw('Express app not specified');
 
     });
 
@@ -32,7 +36,7 @@ describe('The index module', function() {
 
         expect(function() {
             module.setup(settings)
-        }).toThrow(new Error('No Api source directory found'));
+        }).to.throw('No Api source directory found');
 
     });
 
@@ -43,9 +47,9 @@ describe('The index module', function() {
             source: './api'
         };
 
-        fs.existsSync.andReturn(false);
+        fs.existsSync.returns(false);
 
-        expect(module.setup(settings)).toBe(undefined);
+        expect(module.setup(settings)).to.be.undefined;
     });
 
     describe('when configured', function() {
@@ -60,16 +64,25 @@ describe('The index module', function() {
 
         beforeEach(function() {
 
-            fs = jasmine.createSpyObj('fs', ['existsSync', 'readdirSync']);
+            // fs = jasmine.createSpyObj('fs', ['existsSync', 'readdirSync']);
 
-            fs.existsSync.andReturn(true);
-            fs.readdirSync.andReturn([testFile]);
+            // fs.existsSync.andReturn(true);
+            // fs.readdirSync.andReturn([testFile]);
+
+            fs = {
+                existsSync: sinon.stub().returns(true),
+                readdirSync: sinon.stub().returns([testFile])
+            };
 
             testModuleStub = {
                 '@noCallThru': true // prevent this fictional module from being loaded
             };
 
-            app = jasmine.createSpyObj('app', ['use']);
+            //app = jasmine.createSpyObj('app', ['use']);
+
+            app = {
+                use: sinon.stub()
+            };
 
             settings = {
                 app: app,
@@ -92,31 +105,31 @@ describe('The index module', function() {
 
         it('should add the correct endpoint to the express app', function() {
 
-            expect(app.use).toHaveBeenCalledWith('/apiroot/testModule', testModuleStub);
+            app.use.calledWith('/apiroot/testModule', testModuleStub);
 
         });
 
         it('should check for existance of the module file using settings', function() {
 
-            expect(fs.existsSync).toHaveBeenCalledWith(settings.source);
+            fs.existsSync.calledWith(settings.source);
 
         });
 
         it('should read the module file using settings', function() {
 
-            expect(fs.readdirSync).toHaveBeenCalledWith(settings.source);
+            fs.readdirSync.calledWith(settings.source);
 
         });
 
         it('should return the module', function() {
 
-            expect(result.endpoints.testModule).toBeDefined();
+            expect(result.endpoints.testModule).to.exist;
 
         });
 
         it('should have the correct base url', function() {
 
-            expect(result.endpoints.testModule.baseUrl).toBe('/apiroot/testModule');
+            expect(result.endpoints.testModule.baseUrl).to.equal('/apiroot/testModule');
 
         });
 
@@ -124,12 +137,12 @@ describe('The index module', function() {
 
         	var expected = path.join(settings.source, testFile);
 
-            expect(result.endpoints.testModule.filename).toBe(expected);
+            expect(result.endpoints.testModule.filename).to.equal(expected);
 
         });
 
         it('should have the correct module name', function() {
-            expect(result.endpoints.testModule.baseName).toBe('testModule');
+            expect(result.endpoints.testModule.baseName).to.equal('testModule');
         });
 
     });

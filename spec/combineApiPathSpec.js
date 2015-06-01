@@ -1,5 +1,6 @@
 
 var utils = require('../util.js');
+var expect = require('chai').expect;
 
 describe('the combineApiPath method', function() {
 	
@@ -10,7 +11,7 @@ describe('the combineApiPath method', function() {
 
 		var result = utils.combineApiPath(path1, path2);
 
-		expect(result).toBe('/api/test');
+		expect(result).to.equal('/api/test');
 	});
 
 	it('should add a leading slashes where necessary', function() {
@@ -20,7 +21,7 @@ describe('the combineApiPath method', function() {
 
 		var result = utils.combineApiPath(path1, path2);
 
-		expect(result).toBe('/api/test');
+		expect(result).to.equal('/api/test');
 	});
 
 	it('should accept null or empty for the first argument', function() {
@@ -30,7 +31,7 @@ describe('the combineApiPath method', function() {
 
 		var result = utils.combineApiPath(path1, path2);
 
-		expect(result).toBe('/test');
+		expect(result).to.equal('/test');
 	});
 
 	it('should accept null or empty for the second argument', function() {
@@ -40,7 +41,7 @@ describe('the combineApiPath method', function() {
 
 		var result = utils.combineApiPath(path1, path2);
 
-		expect(result).toBe('/api');
+		expect(result).to.equal('/api');
 	});
 
 	it('should handle parameters that contain multiple paths', function() {
@@ -50,6 +51,6 @@ describe('the combineApiPath method', function() {
 
 		var result = utils.combineApiPath(path1, path2);
 
-		expect(result).toBe('/api/products/v1/getProduct');
+		expect(result).to.equal('/api/products/v1/getProduct');
 	});
 });
