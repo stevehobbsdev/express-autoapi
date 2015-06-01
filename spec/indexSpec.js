@@ -64,11 +64,6 @@ describe('The index module', function() {
 
         beforeEach(function() {
 
-            // fs = jasmine.createSpyObj('fs', ['existsSync', 'readdirSync']);
-
-            // fs.existsSync.andReturn(true);
-            // fs.readdirSync.andReturn([testFile]);
-
             fs = {
                 existsSync: sinon.stub().returns(true),
                 readdirSync: sinon.stub().returns([testFile])
@@ -77,8 +72,6 @@ describe('The index module', function() {
             testModuleStub = {
                 '@noCallThru': true // prevent this fictional module from being loaded
             };
-
-            //app = jasmine.createSpyObj('app', ['use']);
 
             app = {
                 use: sinon.stub()
