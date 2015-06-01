@@ -60,7 +60,7 @@ describe('The index module', function() {
         var module;
         var result;
         var testModuleStub;
-        var testFile = 'testModule.js';
+        var testFile = 'index.js';
 
         beforeEach(function() {
 
@@ -79,7 +79,7 @@ describe('The index module', function() {
 
             settings = {
                 app: app,
-                source: './api',
+                source: path.join(__dirname, 'testApi'),
                 root: '/apiroot'
             };
 
@@ -98,7 +98,7 @@ describe('The index module', function() {
 
         it('should add the correct endpoint to the express app', function() {
 
-            app.use.calledWith('/apiroot/testModule', testModuleStub);
+            app.use.calledWith('/apiroot', testModuleStub);
 
         });
 
@@ -116,13 +116,14 @@ describe('The index module', function() {
 
         it('should return the module', function() {
 
-            expect(result.endpoints.testModule).to.exist;
+            console.log('Endpoints', result.endpoints);
+            expect(result.endpoints.index).to.exist;
 
         });
 
         it('should have the correct base url', function() {
 
-            expect(result.endpoints.testModule.baseUrl).to.equal('/apiroot/testModule');
+            expect(result.endpoints.index.baseUrl).to.equal('/apiroot');
 
         });
 
@@ -130,12 +131,12 @@ describe('The index module', function() {
 
         	var expected = path.join(settings.source, testFile);
 
-            expect(result.endpoints.testModule.filename).to.equal(expected);
+            expect(result.endpoints.index.filename).to.equal(expected);
 
         });
 
         it('should have the correct module name', function() {
-            expect(result.endpoints.testModule.baseName).to.equal('testModule');
+            expect(result.endpoints.index.baseName).to.equal('index');
         });
 
     });
