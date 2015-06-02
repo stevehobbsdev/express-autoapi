@@ -15,8 +15,7 @@ describe('The test integration api', function() {
 
 		api.setup({
 			app: app,
-			source: path.join(__dirname, 'testApi'),
-			debug: true
+			source: path.join(__dirname, 'testApi')
 		});
 
 		r = request(app);
@@ -65,17 +64,31 @@ describe('The test integration api', function() {
 				.end(done);
 		});
 
-		// describe('/subroutes', function() {
+		describe('/subroutes', function() {
 
-		// 	it('should return a message', function(done) {
-		// 		r.get('/api/sub/subroutes')
-		// 			.expect({
-		// 				message: 'This is another sub route'
-		// 			})
-		// 			.end(done);
-		// 	});
+			it('should return a message', function(done) {
+				r.get('/api/sub/subs')
+					.expect({
+						message: 'This is another sub route'
+					})
+					.end(done);
+			});
 
-		// });
+		});
+
+		describe('/level3', function() {
+
+			it('should return a message from the third level', function(done) {
+debugger;
+				r.get('/api/sub/level3')
+					.expect({
+						message: 'A message from the third level'
+					})
+					.end(done);
+
+			});
+
+		});
 
 	})
 });

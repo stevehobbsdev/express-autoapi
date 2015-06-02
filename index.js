@@ -40,30 +40,32 @@ function processFileList(files, base, settings, state) {
 
             __log('Relative path: %s', relative);
 
-            var baseName = path.basename(relative, ".js");
-            var name = relative.substr(0, relative.lastIndexOf('.')).replace(/\./g, '_');
-            var isRoot = baseName == settings.rootModule;
+            var pathWithoutExtension = relative.substr(0, relative.lastIndexOf('.'));
+            var routeName = pathWithoutExtension.replace(/\\/g, '/').replace(/\./g, '_');
+            
+            var isRoot = new RegExp(settings.rootModule + '/?$', 'g').test(routeName);
+            var routePath = routeName;
 
-            // Special case for an index file - put these in the root of the api
+            // Special case for an index file - put these in the root of the api            
             if (isRoot) {
 
-                if(name.lastIndexOf('/') > -1)
-                    name = name.substr(0, name.lastIndexOf('/'));
+                if(routePath.lastIndexOf('/') > -1)
+                    routePath = routePath.substr(0, routePath.lastIndexOf('/'));
                 else
-                    name = undefined;
+                    routePath = undefined;
             }
 
-            __log('%s (%s)', baseName, name);
+            __log('%s (%s)', routeName, routePath);
 
-            var apiPath = utils.combineApiPath(settings.root, name);
+            var apiPath = utils.combineApiPath(settings.root, routePath);
 
-            state.endpoints[name] = {
+            state.endpoints[routeName] = {
                 baseUrl: apiPath,
                 filename: modulePath,
-                baseName: name
+                routeName: routeName
             };
 
-            __log(state.endpoints[name]);
+            __log(state.endpoints[routeName]);
 
             settings.app.use(apiPath, module);
         }

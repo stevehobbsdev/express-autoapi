@@ -116,7 +116,6 @@ describe('The index module', function() {
 
         it('should return the module', function() {
 
-            console.log('Endpoints', result.endpoints);
             expect(result.endpoints.index).to.exist;
 
         });
@@ -136,7 +135,9 @@ describe('The index module', function() {
         });
 
         it('should have the correct module name', function() {
-            expect(result.endpoints.index.baseName).to.equal('index');
+            
+            expect(result.endpoints.index.routeName).to.equal('index');
+            
         });
 
     });
