@@ -26,12 +26,17 @@ Given the following folder structure in the root of your node app:
  |-- test.js
  |-- products.js
  |-- ham.js
+ |-- users
+  	 --/ index.js
+  	 --/ admin.js
 ```
 The following base roots will be created:
 ```
 /api/test
 /api/products
 /api/ham
+/api/users
+/api/users/admin
 ```
 Inside the route files, simply manipulate the Express Router in the same way that you normally would when creating routes for an application:
 ```js
