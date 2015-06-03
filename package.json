@@ -1,7 +1,7 @@
 {
   "name": "express-autoapi",
   "version": "0.2.1",
-  "description": "Auto-generates api routes based on the filesystem",
+  "description": "Auto-generates api routes based on the file system",
   "main": "index.js",
   "scripts": {
     "test": "mocha spec",
