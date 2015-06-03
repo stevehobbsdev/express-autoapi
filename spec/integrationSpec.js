@@ -33,7 +33,7 @@ describe('The test integration api', function() {
 			expect(endpoints.index).to.exist;
 			expect(endpoints.index).to.have.all.keys(routeKeys);
 			expect(endpoints.index.baseUrl).to.equal('/api');
-			expect(endpoints.index.filename).to.match(/\\testApi\\index\.js$/);
+			expect(endpoints.index.filename).to.match(/[\\\/]testApi[\\\/]index\.js$/);
 			expect(endpoints.index.routeName).to.equal('index');
 		});
 
@@ -41,7 +41,7 @@ describe('The test integration api', function() {
 			expect(endpoints.user).to.exist;
 			expect(endpoints.user).to.have.all.keys(routeKeys);
 			expect(endpoints.user.baseUrl).to.equal('/api/user');
-			expect(endpoints.user.filename).to.match(/\\testApi\\user\.js$/);
+			expect(endpoints.user.filename).to.match(/[\\\/]testApi[\\\/]user\.js$/);
 			expect(endpoints.user.routeName).to.equal('user');
 		});
 
@@ -49,7 +49,7 @@ describe('The test integration api', function() {
 			expect(endpoints['sub/index']).to.exist;
 			expect(endpoints['sub/index']).to.have.all.keys(routeKeys);
 			expect(endpoints['sub/index'].baseUrl).to.equal('/api/sub');
-			expect(endpoints['sub/index'].filename).to.match(/\\testApi\\sub\\index\.js$/);
+			expect(endpoints['sub/index'].filename).to.match(/[\\\/]testApi[\\\/]sub[\\\/]index\.js$/);
 			expect(endpoints['sub/index'].routeName).to.equal('sub/index');
 		});
 
@@ -57,7 +57,7 @@ describe('The test integration api', function() {
 			expect(endpoints['sub/subs']).to.exist;
 			expect(endpoints['sub/subs']).to.have.all.keys(routeKeys);
 			expect(endpoints['sub/subs'].baseUrl).to.equal('/api/sub/subs');
-			expect(endpoints['sub/subs'].filename).to.match(/\\testApi\\sub\\subs\.js$/);
+			expect(endpoints['sub/subs'].filename).to.match(/[\\\/]testApi[\\\/]sub[\\\/]subs\.js$/);
 			expect(endpoints['sub/subs'].routeName).to.equal('sub/subs');
 		});
 
@@ -65,7 +65,7 @@ describe('The test integration api', function() {
 			expect(endpoints['sub/level3/index']).to.exist;
 			expect(endpoints['sub/level3/index']).to.have.all.keys(routeKeys);
 			expect(endpoints['sub/level3/index'].baseUrl).to.equal('/api/sub/level3');
-			expect(endpoints['sub/level3/index'].filename).to.match(/\\testApi\\sub\\level3\\index\.js$/);
+			expect(endpoints['sub/level3/index'].filename).to.match(/[\\\/]testApi[\\\/]sub[\\\/]level3[\\\/]index\.js$/);
 			expect(endpoints['sub/level3/index'].routeName).to.equal('sub/level3/index');
 		});
 
