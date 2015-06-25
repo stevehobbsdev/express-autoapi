@@ -1,6 +1,6 @@
 {
   "name": "express-autoapi",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "description": "Auto-generates api routes based on the file system",
   "main": "index.js",
   "scripts": {
